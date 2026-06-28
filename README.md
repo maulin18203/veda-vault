@@ -6,7 +6,186 @@
 **Total Files:** 48 PDFs  
 **Total Size:** ~2.6 GB  
 **Script:** `download_shub.py`
+# 📚 Vedic Sanatana PDF Downloader
 
+> Automatically download and organise **75+ sacred Vedic texts** from [vedicsanatana.com](https://vedicsanatana.com) into a clean, categorised folder structure — with concurrent downloads, smart resume, and real-time progress bars.
+
+---
+
+## ✨ Features
+
+| Feature | Details |
+|---|---|
+| ⚡ **Concurrent Downloads** | Configurable parallel workers (default: 4, max: 16) |
+| 🔁 **Auto-Retry** | Exponential back-off on failure (configurable retries) |
+| ⏭ **Resume / Skip** | Already-downloaded files are detected and skipped |
+| 📊 **Progress Bars** | Per-file live progress via `tqdm` |
+| 🎨 **Coloured Output** | ANSI-coloured terminal summary (auto-disabled on non-TTY) |
+| 🧪 **Dry-Run Mode** | Preview what would be downloaded without writing any files |
+| 📁 **Organised Folders** | Files saved into 5 category subfolders automatically |
+| 🛡 **Error-Safe** | Handles timeouts, HTTP errors, and disk errors gracefully |
+
+---
+
+## 📂 Output Folder Structure
+
+```
+Vedic_Sanatana_PDFs/
+├── 01_Veda/
+│   ├── 1.-Rigveda.pdf
+│   ├── 2.-Yajurveda.pdf
+│   ├── 3.-Samveda.pdf
+│   └── 4.-Atharvaveda.pdf
+│
+├── 02_Puran/
+│   ├── 1.-vishnu-puran.pdf
+│   ├── 2.-Shiva-Purana.pdf
+│   └── ... (18 Puranas total)
+│
+├── 03_Upanishad/
+│   ├── 1.-108-Upanishad.pdf
+│   └── ... (14 Upanishads total)
+│
+├── 04_Dharmik_Granth/
+│   ├── 2.-Mahabharat.pdf
+│   ├── 4.-Shrimad-Bhagvad-Gita.pdf
+│   ├── 5.-Shrimad-Valmiki-Ramayana.pdf
+│   └── ... (15 texts total)
+│
+└── 05_Darshan/
+    ├── Mimansa-Darshan-in-Hindi.pdf
+    ├── Yoga-Darshan-in-hindi.pdf
+    └── ... (6 Darshanas total)
+```
+
+---
+
+## 📦 Requirements
+
+- **Python 3.8+**
+- [`requests`](https://pypi.org/project/requests/)
+- [`tqdm`](https://pypi.org/project/tqdm/)
+
+Install dependencies:
+
+```bash
+pip install requests tqdm
+```
+
+---
+
+## 🚀 Usage
+
+### Basic (download everything with defaults)
+```bash
+python download_vedic_pdfs.py
+```
+
+### Custom output directory
+```bash
+python download_vedic_pdfs.py --out ~/Books/Vedic
+```
+
+### Faster downloads with more workers
+```bash
+python download_vedic_pdfs.py --workers 6
+```
+
+### Dry-run (preview only, no files written)
+```bash
+python download_vedic_pdfs.py --dry-run
+```
+
+### Full example with all options
+```bash
+python download_vedic_pdfs.py --out ~/Books/Vedic --workers 8 --retries 5
+```
+
+---
+
+## ⚙️ CLI Options
+
+| Flag | Short | Default | Description |
+|---|---|---|---|
+| `--out DIR` | `-o` | `Vedic_Sanatana_PDFs` | Root output directory |
+| `--workers N` | `-w` | `4` | Number of parallel download threads (1–16) |
+| `--retries N` | `-r` | `3` | Max retry attempts per file |
+| `--dry-run` | — | `false` | Show what would be downloaded without writing |
+
+---
+
+## 📖 Catalogue
+
+### वेद · Vedas (4 texts)
+Rigveda, Yajurveda, Samaveda, Atharvaveda
+
+### पुराण · Puranas (18 texts)
+Vishnu, Shiva, Brahma, Agni, Bhagavad, Bhavishya, Garuda, Kurma, Linga, Markandeya, Matsya, Narada, Padma, Skanda, Brahma Vaivarta, Vamana, Varaha, Vayu
+
+### उपनिषद् · Upanishads (14 texts)
+108 Upanishads, Nirvana, Ishavasya, Isha, Kaivalya, Prashna, Mandukya, Kena, Katha, Mundaka, Aitareya, Taittiriya, Chandogya, Brihadaranyaka
+
+### प्रमुख धार्मिक ग्रंथ · Major Religious Texts (15 texts)
+Ravan Samhita, Mahabharat, Bhavishya Malika, Bhagavad Gita, Yatharth Geeta, Valmiki Ramayana, Ramcharitmanas, Bhrigu Sanhita, Yoga Vasishtha, Ashtavakra Gita, Adbhut Ramayan, Surya Siddhanta, ManuSmriti, Satyarth Prakash, and more
+
+### दर्शन · Philosophy / Darshanas (6 texts)
+Mimansa, Vaisheshika, Yoga, Sankhya, Nyaya, Vedanta (Brahma Sutra)
+
+---
+
+## 🖥 Sample Terminal Output
+
+```
+  📚  Vedic Sanatana PDF Downloader
+  Saving to :  /home/user/Vedic_Sanatana_PDFs
+  Files     :  57  │  Workers: 4  │  Retries: 3
+
+  ✅ 01_Veda/1.-Rigveda.pdf  14.2 MB
+  ✅ 01_Veda/2.-Yajurveda.pdf  9.8 MB
+  ⏭  02_Puran/1.-vishnu-puran.pdf  already exists
+  ❌ 03_Upanishad/10.-Mundkopanishad.pdf  HTTP 404 – file not found on server
+
+──────────────────────────────────────────────────────────────
+  📚  Download Complete
+──────────────────────────────────────────────────────────────
+  ✅  Downloaded    54     823.4 MB fetched this run
+  ⏭   Skipped       2     already on disk
+  ❌  Failed         1
+──────────────────────────────────────────────────────────────
+  💾  Total on disk   1.1 GB
+  ⏱   Total time      142.3 s
+  📁  Output folder   /home/user/Vedic_Sanatana_PDFs
+──────────────────────────────────────────────────────────────
+```
+
+---
+
+## 🔄 How It Works
+
+1. **Catalogue lookup** — each entry maps a category folder, filename, and CDN base URL.
+2. **Resume check** — if the destination file already exists and is ≥ 4 KB, it is skipped.
+3. **Concurrent download** — a `ThreadPoolExecutor` spawns `N` worker threads simultaneously.
+4. **Streaming write** — files are streamed in 64 KB chunks to a `.tmp` file, then atomically renamed on success.
+5. **Retry with back-off** — on timeout or server error, each attempt waits `2^attempt` seconds before retrying.
+6. **Summary report** — a final coloured table shows downloaded, skipped, and failed counts with total size and time.
+
+---
+
+## ⚠️ Disclaimer
+
+This tool downloads publicly accessible PDFs from [vedicsanatana.com](https://vedicsanatana.com) for **personal study and archival purposes only**. Please respect the website's terms of service and do not overload their servers. Use `--workers 2` or lower for a gentler crawl.
+
+---
+
+## 🙏 Credits
+
+Sacred texts sourced from [vedicsanatana.com](https://vedicsanatana.com). This downloader is an independent utility and is not affiliated with or endorsed by the website.
+
+---
+
+## 📄 License
+
+MIT License — free to use, modify, and share.
 ---
 
 ## 📁 Folder Structure
